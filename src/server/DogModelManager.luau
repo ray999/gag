@@ -22,7 +22,6 @@ local function createDogModel(player, dogName, dogId)
     part.Parent = model
 
     local humanoid = Instance.new("Humanoid")
-    humanoid.RootPart = part
     humanoid.Parent = model
     model.PrimaryPart = part
 
@@ -70,7 +69,6 @@ local function createStrayDogModel(dogName)
     part.Parent = model
 
     local humanoid = Instance.new("Humanoid")
-    humanoid.RootPart = part
     humanoid.Parent = model
     model.PrimaryPart = part
 
