@@ -23,6 +23,7 @@ function AssetLoader.loadAsset(assetId)
         return result
     else
         warn("Failed to load asset with ID " .. tostring(assetId) .. ": " .. tostring(result))
+
         return nil
     end
 end
