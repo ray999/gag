@@ -46,6 +46,8 @@ All core gameplay features have been implemented. The next step is to replace th
 - Renamed bootstrap scripts so server and client modules load correctly at runtime, resolving missing `PlayerManager` and `CoinDisplay` errors.
 - Assigned a `PrimaryPart` to every dog model, ensuring `SetPrimaryPartCFrame` works without errors.
 - Named the dog models' primary part `HumanoidRootPart` so humanoids have a valid root part and modules load without errors.
+- Set dog models' `PrimaryPart` after the humanoid is parented to avoid read-only `RootPart` assignment errors.
+- Parent dog models to the workspace only after they are fully initialized, preventing `RootPart` property assignment failures.
 
 
 ### Building Models

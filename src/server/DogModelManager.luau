@@ -2,7 +2,6 @@ local Players = game:GetService("Players")
 local Workspace = game:GetService("Workspace")
 local HttpService = game:GetService("HttpService")
 
-
 local DogModelManager = {}
 
 local dogModels = {}
@@ -10,7 +9,6 @@ local dogModels = {}
 local function createDogModel(player, dogName, dogId)
     local model = Instance.new("Model")
     model.Name = dogName
-    model.Parent = Workspace
 
     dogId = dogId or HttpService:GenerateGUID(false)
     model:SetAttribute("uniqueID", dogId)
@@ -22,16 +20,19 @@ local function createDogModel(player, dogName, dogId)
     part.Anchored = false
     part.CanCollide = true
     part.Parent = model
-    model.PrimaryPart = part
 
 
     local humanoid = Instance.new("Humanoid")
     humanoid.RootPart = part
     humanoid.Parent = model
+    model.PrimaryPart = part
 
     if player.Character and player.Character.PrimaryPart then
-        model:SetPrimaryPartCFrame(player.Character.PrimaryPart.CFrame + Vector3.new(3, 0, 3))
+        model:PivotTo(player.Character.PrimaryPart.CFrame + Vector3.new(3, 0, 3))
     end
+
+    model.Parent = Workspace
+
 
     if not dogModels[player] then
         dogModels[player] = {}
@@ -55,7 +56,7 @@ end
 local function createStrayDogModel(dogName)
     local model = Instance.new("Model")
     model.Name = dogName
-    model.Parent = Workspace
+
     model:SetAttribute("uniqueID", HttpService:GenerateGUID(false))
 
     local part = Instance.new("Part")
@@ -65,14 +66,16 @@ local function createStrayDogModel(dogName)
     part.Anchored = false
     part.CanCollide = true
     part.Parent = model
-    model.PrimaryPart = part
 
 
     local humanoid = Instance.new("Humanoid")
     humanoid.RootPart = part
     humanoid.Parent = model
+    model.PrimaryPart = part
 
-    model:SetPrimaryPartCFrame(CFrame.new(math.random(-50,50), 5, math.random(-50,50)))
+    model:PivotTo(CFrame.new(math.random(-50,50), 5, math.random(-50,50)))
+
+    model.Parent = Workspace
 
     task.spawn(function()
         while model.Parent do
