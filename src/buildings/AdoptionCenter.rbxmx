@@ -9,7 +9,7 @@
 				<bool name="Anchored">true</bool>
 				<Color3 name="Color"><R>1</R><G>0.8</G><B>0.8</B></Color3>
 				<Vector3 name="Size"><X>20</X><Y>10</Y><Z>1</Z></Vector3>
-				<CoordinateFrame name="CFrame"><![CDATA[1 0 0 0 1 0 0 0 1 0 5 -10]]></CoordinateFrame>
+                                <CoordinateFrame name="CFrame">1 0 0 0 1 0 0 0 1 0 5 -10</CoordinateFrame>
 			</Properties>
 		</Item>
 		<Item class="Part" referent="RBX2">
