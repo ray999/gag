@@ -15,7 +15,7 @@ Dog World is a pet simulation game where players can adopt, collect, and care fo
 - **Adoption Center:** A center that restocks with 10 new dogs every minute (testing) available for purchase with DogCoins.
 - **Premium Shop:** A special shop to purchase limited edition dogs with Robux.
 - **Stray Dogs:** Various stray dogs wander the world and can be found roaming around.
-- **Dog Models:** All dog models are tagged with unique IDs for asset tracking (1ac654213aa2686d08a8495700003cb1, 1ac654213aa2686d08a8495700003d3d, 1ac654213aa2686d08a8495700003ec7, 1ac654213aa2686d08a8495700003f40) and define a `PrimaryPart` for positioning.
+- **Dog Models:** All dog models are tagged with unique IDs for asset tracking (1ac654213aa2686d08a8495700003cb1, 1ac654213aa2686d08a8495700003d3d, 1ac654213aa2686d08a8495700003ec7, 1ac654213aa2686d08a8495700003f40) and require a `HumanoidRootPart` set as the `PrimaryPart` for positioning and movement.
 - **Economy System:**
   - **DogCoins:** The primary in-game currency. Players automatically receive 500 DogCoins every minute (testing).
   - **Robux:** Used for purchasing exclusive, limited-edition dogs.
@@ -39,11 +39,8 @@ All core gameplay features have been implemented. The next step is to replace th
 - Fixed building component positions by assigning explicit CFrames, preventing structures from spawning below the ground level.
 - Renamed bootstrap scripts so server and client modules load correctly at runtime, resolving missing `PlayerManager` and `CoinDisplay` errors.
 - Assigned a `PrimaryPart` to every dog model, ensuring `SetPrimaryPartCFrame` works without errors.
-- Replaced non-numeric GUI asset IDs with direct GUI construction; `AssetLoader.loadGui` now requires valid numeric asset IDs.
+- Ensured dog models use a `HumanoidRootPart` as their `PrimaryPart` so they can be positioned and moved correctly.
 
-### Asset ID Requirements
-
-Any use of `AssetLoader.loadGui` must provide a valid numeric Roblox asset ID. Placeholder strings or GUIDs are no longer supported. If a numeric ID is unavailable, create the GUI elements directly in code.
 
 ### Building Models
 
