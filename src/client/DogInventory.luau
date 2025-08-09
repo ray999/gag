@@ -2,61 +2,43 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local NewDogAlert = ReplicatedStorage:WaitForChild("NewDogAlert")
+local AssetLoader = require(ReplicatedStorage.Shared.AssetLoader)
+local AssetIds = require(ReplicatedStorage.Shared.AssetIds)
 
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
--- Main GUI
-local screenGui = Instance.new("ScreenGui", playerGui)
-screenGui.Name = "DogInventoryGui"
-
--- New Dog Alert
-local alertFrame = Instance.new("Frame", screenGui)
-alertFrame.Name = "NewDogAlert"
-alertFrame.Size = UDim2.new(0, 300, 0, 100)
-alertFrame.Position = UDim2.new(0.5, -150, 0.2, 0)
-alertFrame.BackgroundColor3 = Color3.new(0.1, 0.1, 0.1)
-alertFrame.BackgroundTransparency = 0.2
-alertFrame.BorderSizePixel = 0
-alertFrame.Visible = false
-
-local alertLabel = Instance.new("TextLabel", alertFrame)
-alertLabel.Name = "AlertLabel"
-alertLabel.Size = UDim2.new(1, 0, 1, 0)
-alertLabel.BackgroundColor3 = Color3.new(1, 1, 1)
-alertLabel.BackgroundTransparency = 1
-alertLabel.TextColor3 = Color3.new(1, 1, 1)
-alertLabel.Font = Enum.Font.SourceSansBold
-alertLabel.TextSize = 20
-alertLabel.Text = ""
-
--- Inventory UI
-local inventoryFrame = Instance.new("Frame", screenGui)
-inventoryFrame.Name = "InventoryFrame"
-inventoryFrame.Size = UDim2.new(0, 400, 0, 300)
-inventoryFrame.Position = UDim2.new(0.5, -200, 0.5, -150)
-inventoryFrame.BackgroundColor3 = Color3.new(0.2, 0.2, 0.2)
-inventoryFrame.Visible = false
-
-local dogList = Instance.new("UIListLayout", inventoryFrame)
-dogList.Padding = UDim.new(0, 5)
-
--- Inventory Button
-local inventoryButton = Instance.new("TextButton", screenGui)
-inventoryButton.Name = "InventoryButton"
-inventoryButton.Size = UDim2.new(0, 150, 0, 50)
-inventoryButton.Position = UDim2.new(1, -160, 0, 10)
-inventoryButton.Text = "My Dogs"
-inventoryButton.BackgroundColor3 = Color3.new(0.1, 0.5, 0.8)
-inventoryButton.TextColor3 = Color3.new(1, 1, 1)
-
-local function toggleInventory()
-    inventoryFrame.Visible = not inventoryFrame.Visible
+local screenGui = AssetLoader.loadGui(AssetIds.DogInventoryGui, playerGui)
+if screenGui then
+    screenGui.Name = "DogInventoryGui"
 end
 
-inventoryButton.MouseButton1Click:Connect(toggleInventory)
+local alertFrame = screenGui and screenGui:WaitForChild("NewDogAlert")
+local alertLabel = alertFrame and alertFrame:WaitForChild("AlertLabel")
+local inventoryFrame = screenGui and screenGui:WaitForChild("InventoryFrame")
+local inventoryButton = screenGui and screenGui:WaitForChild("InventoryButton")
+
+local dogList = inventoryFrame and inventoryFrame:FindFirstChildWhichIsA("UIListLayout")
+if not dogList and inventoryFrame then
+    dogList = Instance.new("UIListLayout", inventoryFrame)
+    dogList.Padding = UDim.new(0, 5)
+end
+
+local function toggleInventory()
+    if inventoryFrame then
+        inventoryFrame.Visible = not inventoryFrame.Visible
+    end
+end
+
+if inventoryButton then
+    inventoryButton.MouseButton1Click:Connect(toggleInventory)
+end
 
 local function updateDogList(dogs)
+    if not inventoryFrame then
+        return
+    end
+
     for i, child in ipairs(inventoryFrame:GetChildren()) do
         if child:IsA("TextLabel") then
             child:Destroy()
@@ -72,13 +54,13 @@ local function updateDogList(dogs)
 end
 
 local function onNewDog(dog, allDogs)
-    -- Show alert
-    alertLabel.Text = "You got a new dog: " .. dog.Name .. " (" .. dog.Id .. ")!"
-    alertFrame.Visible = true
-    task.wait(3)
-    alertFrame.Visible = false
+    if alertLabel and alertFrame then
+        alertLabel.Text = "You got a new dog: " .. dog.Name .. " (" .. dog.Id .. ")!"
+        alertFrame.Visible = true
+        task.wait(3)
+        alertFrame.Visible = false
+    end
 
-    -- Update inventory
     updateDogList(allDogs)
 end
 

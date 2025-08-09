@@ -1,5 +1,6 @@
 require(script.Parent.Remotes)
 require(script.Parent.PlayerManager)
+require(script.Parent.BuildingPlacer)
 require(script.Parent.SnackMachine)
 require(script.Parent.AdoptionCenter)
 require(script.Parent.DogManager)

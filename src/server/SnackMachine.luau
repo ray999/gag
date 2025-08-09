@@ -52,18 +52,25 @@ end
 local function setupMachineForPlayer(player)
     local machineClone = snackMachineModel:Clone()
     machineClone.Name = player.Name .. "'s Snack Machine"
-    machineClone.Parent = Workspace
-
     machineClone.PrimaryPart = machineClone:FindFirstChild("Body")
 
-    if player.Character and machineClone.PrimaryPart then
-        machineClone:SetPrimaryPartCFrame(player.Character:GetPrimaryPartCFrame() + Vector3.new(5, 0, 5))
-    end
-    player.CharacterAdded:Connect(function(character)
+    local function positionMachine(character)
         if machineClone.PrimaryPart then
             machineClone:SetPrimaryPartCFrame(character:GetPrimaryPartCFrame() + Vector3.new(5, 0, 5))
         end
-    end)
+    end
+
+    if player.Character then
+        positionMachine(player.Character)
+    else
+        player.CharacterAdded:Wait()
+        if player.Character then
+            positionMachine(player.Character)
+        end
+    end
+
+    machineClone.Parent = Workspace
+    player.CharacterAdded:Connect(positionMachine)
 
     task.spawn(function()
         while player:IsDescendantOf(Players) do
