@@ -1,7 +1,7 @@
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local Remotes = require(ReplicatedStorage.Shared.Remotes)
+local NewDogAlert = ReplicatedStorage:WaitForChild("NewDogAlert")
 
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
@@ -82,6 +82,6 @@ local function onNewDog(dog, allDogs)
     updateDogList(allDogs)
 end
 
-Remotes.NewDogAlert.OnClientEvent:Connect(onNewDog)
+NewDogAlert.OnClientEvent:Connect(onNewDog)
 
 return true

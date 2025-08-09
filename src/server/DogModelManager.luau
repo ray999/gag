@@ -1,5 +1,4 @@
 local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService("Workspace")
 local HttpService = game:GetService("HttpService")
 
@@ -22,7 +21,9 @@ local function createDogModel(player, dogName, dogId)
     part.CanCollide = true
     part.Parent = model
 
+
     local humanoid = Instance.new("Humanoid")
+    humanoid.RootPart = part
     humanoid.Parent = model
     model.PrimaryPart = part
 
@@ -31,6 +32,7 @@ local function createDogModel(player, dogName, dogId)
     end
 
     model.Parent = Workspace
+
 
     if not dogModels[player] then
         dogModels[player] = {}
@@ -54,6 +56,7 @@ end
 local function createStrayDogModel(dogName)
     local model = Instance.new("Model")
     model.Name = dogName
+
     model:SetAttribute("uniqueID", HttpService:GenerateGUID(false))
 
     local part = Instance.new("Part")
@@ -64,7 +67,9 @@ local function createStrayDogModel(dogName)
     part.CanCollide = true
     part.Parent = model
 
+
     local humanoid = Instance.new("Humanoid")
+    humanoid.RootPart = part
     humanoid.Parent = model
     model.PrimaryPart = part
 
@@ -74,8 +79,11 @@ local function createStrayDogModel(dogName)
 
     task.spawn(function()
         while model.Parent do
-            local randomTarget = model.PrimaryPart.Position + Vector3.new(math.random(-20,20), 0, math.random(-20,20))
-            humanoid:MoveTo(randomTarget)
+            local primaryPart = model.PrimaryPart
+            if primaryPart then
+                local randomTarget = primaryPart.Position + Vector3.new(math.random(-20,20), 0, math.random(-20,20))
+                humanoid:MoveTo(randomTarget)
+            end
             task.wait(5)
         end
     end)
