@@ -10,6 +10,7 @@ local DogModelManager = require(script.Parent.DogModelManager)
 local SnackMachine = {}
 
 local snackMachineModel = Workspace.GameBuildings.SnackMachine
+snackMachineModel:SetAttribute("uniqueID", "1ac654213aa2686d08a84957000039b7")
 
 local function getDogByRarity(rarity)
     local dogsOfRarity = {}

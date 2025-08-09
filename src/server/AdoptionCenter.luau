@@ -71,7 +71,7 @@ Remotes.BuyDog.OnServerInvoke = buyDog
 task.spawn(function()
     while true do
         refreshAdoptionCenter()
-        task.wait(25 * 60) -- 25 minutes
+        task.wait(60) -- 1 minute for testing
     end
 end)
 

@@ -10,6 +10,7 @@ local playerGui = player:WaitForChild("PlayerGui")
 -- Main GUI
 local screenGui = Instance.new("ScreenGui", playerGui)
 screenGui.Name = "AdoptionCenterGui"
+screenGui:SetAttribute("uniqueID", "1ac654213aa2686d08a849570000224d")
 
 -- Adoption Center UI
 local mainFrame = Instance.new("Frame", screenGui)

@@ -49,7 +49,7 @@ Remotes.CompleteDogRequest.OnServerInvoke = completeRequest
 local function setupDogRequestLoop(player)
     task.spawn(function()
         while player:IsDescendantOf(Players) do
-            task.wait(math.random(60, 300)) -- Every 1-5 minutes
+            task.wait(math.random(30, 60)) -- Every 30-60 seconds for testing
             local playerData = PlayerManager.getPlayerState(player)
             if playerData and #playerData.Dogs > 0 then
                 local randomDogIndex = math.random(1, #playerData.Dogs)
