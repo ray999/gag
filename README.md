@@ -23,6 +23,10 @@ Dog World is a pet simulation game where players can adopt, collect, and care fo
 - **Wallet Display:** The player's current DogCoin balance is always visible on screen.
 - **Dog Requests:** Your dogs will occasionally have requests (e.g., playing, eating). Fulfilling these requests rewards you with DogCoins. During testing, these occur every 30–60 seconds.
 
+### Networking
+
+All RemoteEvents and RemoteFunctions are created on the server under `ServerScriptService` and stored in `ReplicatedStorage`. Clients retrieve them using `ReplicatedStorage:WaitForChild("<RemoteName>")`.
+
 ## Current Status
 
 All core gameplay features have been implemented. The next step is to replace the placeholder building and dog models with higher-quality assets from the Roblox Creator Marketplace.
@@ -39,8 +43,8 @@ All core gameplay features have been implemented. The next step is to replace th
 - Corrected `DogModelManager` to use `OnServerEvent` instead of `OnClientEvent`, resolving the server-side event error.
 - Fixed building component positions by assigning explicit CFrames, preventing structures from spawning below the ground level.
 - Renamed bootstrap scripts so server and client modules load correctly at runtime, resolving missing `PlayerManager` and `CoinDisplay` errors.
-- Ensured each dog model generates a unique ID and uses `HumanoidRootPart` as its `PrimaryPart` so movement scripts can track them.
-
+- Assigned a `PrimaryPart` to every dog model, ensuring `SetPrimaryPartCFrame` works without errors.
+- Remotes are now created server-side and clients retrieve them via `ReplicatedStorage:WaitForChild`, removing the shared module dependency.
 
 ### Building Models
 

@@ -1,7 +1,9 @@
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local Remotes = require(ReplicatedStorage.Shared.Remotes)
+local UpdateDogCoins = ReplicatedStorage:WaitForChild("UpdateDogCoins")
+local AssetLoader = require(ReplicatedStorage.Shared.AssetLoader)
+
 
 local player = Players.LocalPlayer
 
@@ -27,6 +29,6 @@ local function onUpdateDogCoins(newAmount)
     walletLabel.Text = "Wallet: " .. newAmount
 end
 
-Remotes.UpdateDogCoins.OnClientEvent:Connect(onUpdateDogCoins)
+UpdateDogCoins.OnClientEvent:Connect(onUpdateDogCoins)
 
 return true
