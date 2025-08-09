@@ -33,6 +33,7 @@ All core gameplay features have been implemented. The next step is to replace th
 
 ### Recent Fixes
 
+- Guard against missing adoption center UI to prevent nil `DogList` errors when assets fail to load.
 - Gracefully handle unauthorized asset loads by returning failure status and avoiding infinite waits on clients.
 - Fixed `CompleteDogRequest` invocation in `DogInteractionGui` to prevent nil reference errors.
 - Reduced snack machine dog adoption chance to 20%.
