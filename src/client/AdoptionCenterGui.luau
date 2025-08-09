@@ -5,59 +5,30 @@ local BuyDog = ReplicatedStorage:WaitForChild("BuyDog")
 local AdoptionCenterRestocked = ReplicatedStorage:WaitForChild("AdoptionCenterRestocked")
 local GetAdoptionDogs = ReplicatedStorage:WaitForChild("GetAdoptionDogs")
 local DogSettings = require(ReplicatedStorage.Shared.DogSettings)
+local AssetLoader = require(ReplicatedStorage.Shared.AssetLoader)
+local AssetIds = require(ReplicatedStorage.Shared.AssetIds)
 
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
--- Main GUI
-local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "AdoptionCenterGui"
-screenGui.Parent = playerGui
-
--- Adoption Center UI
-local mainFrame = screenGui:FindFirstChild("AdoptionCenterFrame")
-if not mainFrame then
-    mainFrame = Instance.new("Frame", screenGui)
-    mainFrame.Name = "AdoptionCenterFrame"
-    mainFrame.Size = UDim2.new(0, 500, 0, 400)
-    mainFrame.Position = UDim2.new(0.5, -250, 0.5, -200)
-    mainFrame.BackgroundColor3 = Color3.fromRGB(240, 240, 240)
-    mainFrame.Visible = false
-
-    local title = Instance.new("TextLabel", mainFrame)
-    title.Size = UDim2.new(1, 0, 0, 50)
-    title.Text = "Adoption Center"
-    title.Font = Enum.Font.SourceSansBold
-    title.TextSize = 24
+local screenGui = AssetLoader.loadGui(AssetIds.AdoptionCenterGui, playerGui)
+if screenGui then
+    screenGui.Name = "AdoptionCenterGui"
 end
 
-local dogList = mainFrame:FindFirstChild("DogList")
-if not dogList then
-    dogList = Instance.new("ScrollingFrame", mainFrame)
-    dogList.Name = "DogList"
-    dogList.Size = UDim2.new(1, -20, 1, -60)
-    dogList.Position = UDim2.new(0, 10, 0, 50)
-    dogList.BackgroundColor3 = Color3.fromRGB(220, 220, 220)
-
-    local listLayout = Instance.new("UIListLayout", dogList)
-    listLayout.Padding = UDim.new(0, 5)
-end
-
--- Open/Close Button
-local toggleButton = screenGui:FindFirstChild("AdoptionCenterButton")
-if not toggleButton then
-    toggleButton = Instance.new("TextButton", screenGui)
-    toggleButton.Name = "AdoptionCenterButton"
-    toggleButton.Size = UDim2.new(0, 150, 0, 50)
-    toggleButton.Position = UDim2.new(1, -320, 0, 10)
-    toggleButton.Text = "Adoption Center"
-end
+local mainFrame = screenGui and screenGui:WaitForChild("AdoptionCenterFrame")
+local dogList = mainFrame and mainFrame:WaitForChild("DogList")
+local toggleButton = screenGui and screenGui:WaitForChild("AdoptionCenterButton")
 
 local function toggleUI()
-    mainFrame.Visible = not mainFrame.Visible
+    if mainFrame then
+        mainFrame.Visible = not mainFrame.Visible
+    end
 end
 
-toggleButton.MouseButton1Click:Connect(toggleUI)
+if toggleButton then
+    toggleButton.MouseButton1Click:Connect(toggleUI)
+end
 
 local function buyDog(dogName)
     local success, message = BuyDog:InvokeServer(dogName)

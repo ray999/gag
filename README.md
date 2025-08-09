@@ -52,6 +52,8 @@ All core gameplay features have been implemented. The next step is to replace th
 - Named the dog models' primary part `HumanoidRootPart` so humanoids have a valid root part and modules load without errors.
 - Parent dog models to the workspace only after their parts and humanoid are added.
 - Assign the models' `PrimaryPart` once parented to avoid read-only `RootPart` assignment errors.
+- Replaced handwritten GUIs with asset library components loaded via `AssetLoader` and centralized IDs in `AssetIds`.
+- Positioned the adoption center and snack machine above ground on startup to keep them visible.
 
 
 ### Building Models

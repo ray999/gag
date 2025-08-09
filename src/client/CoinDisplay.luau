@@ -3,30 +3,25 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local UpdateDogCoins = ReplicatedStorage:WaitForChild("UpdateDogCoins")
 local AssetLoader = require(ReplicatedStorage.Shared.AssetLoader)
-
+local AssetIds = require(ReplicatedStorage.Shared.AssetIds)
 
 local player = Players.LocalPlayer
-
 local playerGui = player:WaitForChild("PlayerGui")
 
-local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "WalletGui"
-screenGui.Parent = playerGui
+local screenGui = AssetLoader.loadGui(AssetIds.CoinDisplayGui, playerGui)
+if screenGui then
+    screenGui.Name = "WalletGui"
+end
 
-local walletLabel = Instance.new("TextLabel")
-walletLabel.Name = "WalletLabel"
-walletLabel.Size = UDim2.new(0, 200, 0, 50)
-walletLabel.Position = UDim2.new(0, 10, 0, 10)
-walletLabel.BackgroundColor3 = Color3.new(0, 0, 0)
-walletLabel.BackgroundTransparency = 0.5
-walletLabel.TextColor3 = Color3.new(1, 1, 1)
-walletLabel.Font = Enum.Font.SourceSansBold
-walletLabel.TextSize = 24
-walletLabel.Text = "Wallet: ..."
-walletLabel.Parent = screenGui
+local walletLabel = screenGui and screenGui:WaitForChild("WalletLabel")
+if walletLabel then
+    walletLabel.Text = "Wallet: ..."
+end
 
 local function onUpdateDogCoins(newAmount)
-    walletLabel.Text = "Wallet: " .. newAmount
+    if walletLabel then
+        walletLabel.Text = "Wallet: " .. newAmount
+    end
 end
 
 UpdateDogCoins.OnClientEvent:Connect(onUpdateDogCoins)
