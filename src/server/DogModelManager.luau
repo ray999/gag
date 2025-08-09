@@ -39,7 +39,8 @@ local function createDogModel(player, dogName, dogId)
     task.spawn(function()
         while model.Parent do
             if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-                local targetPosition = player.Character.HumanoidRootPart.Position
+                local rootPart = player.Character.HumanoidRootPart
+                local targetPosition = rootPart.Position - rootPart.CFrame.LookVector * 5
                 humanoid:MoveTo(targetPosition)
             end
             task.wait(0.5)
