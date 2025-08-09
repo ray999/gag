@@ -33,6 +33,9 @@ All core gameplay features have been implemented. The next step is to replace th
 - Shortened in-game timers to one minute for faster testing.
 - Tagged the adoption UI, pet snack machine, DogCoin wallet, and dog models with unique IDs for asset tracking.
 - Added an asset loader to retrieve UI components from the asset library by their unique IDs.
+- Reworked the asset loader to load IDs on the server with `InsertService` or on the client via `require`, eliminating `GetObjects` permission errors.
+- Updated client scripts to return a value so they can be required without runtime failures.
+- Corrected `DogModelManager` to use `OnServerEvent` instead of `OnClientEvent`, resolving the server-side event error.
 - Fixed building component positions by assigning explicit CFrames, preventing structures from spawning below the ground level.
 - Renamed bootstrap scripts so server and client modules load correctly at runtime, resolving missing `PlayerManager` and `CoinDisplay` errors.
 

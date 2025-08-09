@@ -83,3 +83,5 @@ local function onNewDog(dogName, allDogs)
 end
 
 Remotes.NewDogAlert.OnClientEvent:Connect(onNewDog)
+
+return true

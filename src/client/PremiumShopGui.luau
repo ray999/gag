@@ -69,3 +69,5 @@ for dogName, dogInfo in pairs(DogSettings.Dogs) do
         end)
     end
 end
+
+return true

@@ -102,3 +102,5 @@ Remotes.AdoptionCenterRestocked.OnClientEvent:Connect(updateDogList)
 -- Initial fetch
 local initialDogs = Remotes.GetAdoptionDogs:InvokeServer()
 updateDogList(initialDogs)
+
+return true

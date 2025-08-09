@@ -54,3 +54,5 @@ end
 
 Remotes.DogRequestUpdate.OnClientEvent:Connect(updateDogListWithRequests)
 Remotes.NewDogAlert.OnClientEvent:Connect(function(_, dogs) updateDogListWithRequests(dogs) end)
+
+return true

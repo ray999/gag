@@ -35,3 +35,5 @@ local function onUpdateDogCoins(newAmount)
 end
 
 Remotes.UpdateDogCoins.OnClientEvent:Connect(onUpdateDogCoins)
+
+return true
