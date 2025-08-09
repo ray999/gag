@@ -11,15 +11,15 @@ local dogRequests = {
     "Drinking", "Walking", "Watching TV", "Socializing"
 }
 
-local function giveRandomRequest(player, dogName)
+local function giveRandomRequest(player, dogId)
     local request = dogRequests[math.random(1, #dogRequests)]
     local playerData = PlayerManager.getPlayerState(player)
-    
+
     if playerData then
-        for i, dog in ipairs(playerData.Dogs) do
-            if (type(dog) == "string" and dog == dogName) or (type(dog) == "table" and dog.Name == dogName) then
-                playerData.Dogs[i] = { Name = dogName, Request = request }
-                print(player.Name .. "'s dog " .. dogName .. " wants to go " .. request)
+        for _, dog in ipairs(playerData.Dogs) do
+            if dog.Id == dogId and not dog.Request then
+                dog.Request = request
+                print(player.Name .. "'s dog " .. dog.Name .. " wants to go " .. request)
                 Remotes.DogRequestUpdate:FireClient(player, playerData.Dogs)
                 return
             end
@@ -27,16 +27,16 @@ local function giveRandomRequest(player, dogName)
     end
 end
 
-local function completeRequest(player, dogName)
+local function completeRequest(player, dogId)
     local playerData = PlayerManager.getPlayerState(player)
     if playerData then
-        for i, dogData in ipairs(playerData.Dogs) do
-            if dogData.Name == dogName and dogData.Request then
-                playerData.Dogs[i] = dogData.Name -- Reset to string
+        for _, dog in ipairs(playerData.Dogs) do
+            if dog.Id == dogId and dog.Request then
+                dog.Request = nil
                 playerData.DogCoins = playerData.DogCoins + 200
                 Remotes.UpdateDogCoins:FireClient(player, playerData.DogCoins)
                 Remotes.DogRequestUpdate:FireClient(player, playerData.Dogs)
-                print(player.Name .. " completed " .. dogName .. "'s request.")
+                print(player.Name .. " completed " .. dog.Name .. "'s request.")
                 return true
             end
         end
@@ -52,18 +52,10 @@ local function setupDogRequestLoop(player)
             task.wait(math.random(30, 60)) -- Every 30-60 seconds for testing
             local playerData = PlayerManager.getPlayerState(player)
             if playerData and #playerData.Dogs > 0 then
-                local randomDogIndex = math.random(1, #playerData.Dogs)
-                local dog = playerData.Dogs[randomDogIndex]
-                
-                local dogName
-                if type(dog) == "string" then
-                    dogName = dog
-                elseif type(dog) == "table" and not dog.Request then
-                    dogName = dog.Name
-                end
+                local randomDog = playerData.Dogs[math.random(1, #playerData.Dogs)]
 
-                if dogName then
-                    giveRandomRequest(player, dogName)
+                if randomDog and not randomDog.Request then
+                    giveRandomRequest(player, randomDog.Id)
                 end
             end
         end
