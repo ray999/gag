@@ -15,13 +15,23 @@ local function createDogModel(player, dogName, dogId)
     dogId = dogId or HttpService:GenerateGUID(false)
     model:SetAttribute("uniqueID", dogId)
 
+    local part = Instance.new("Part")
+    part.Name = "HumanoidRootPart"
+    part.Size = Vector3.new(2, 2, 3)
+    part.Color = Color3.new(math.random(), math.random(), math.random())
+    part.Anchored = false
+    part.CanCollide = true
+    part.Parent = model
+    model.PrimaryPart = part
 
 
     local humanoid = Instance.new("Humanoid")
     humanoid.RootPart = part
     humanoid.Parent = model
 
-    model:SetPrimaryPartCFrame(player.Character.PrimaryPart.CFrame + Vector3.new(3, 0, 3))
+    if player.Character and player.Character.PrimaryPart then
+        model:SetPrimaryPartCFrame(player.Character.PrimaryPart.CFrame + Vector3.new(3, 0, 3))
+    end
 
     if not dogModels[player] then
         dogModels[player] = {}
@@ -48,14 +58,15 @@ local function createStrayDogModel(dogName)
     model.Parent = Workspace
     model:SetAttribute("uniqueID", HttpService:GenerateGUID(false))
 
-    local rootPart = Instance.new("Part")
-    rootPart.Name = "HumanoidRootPart"
-    rootPart.Size = Vector3.new(2, 2, 3)
-    rootPart.Color = Color3.new(math.random(), math.random(), math.random())
-    rootPart.Anchored = false
-    rootPart.CanCollide = true
-    rootPart.Parent = model
-    model.PrimaryPart = rootPart
+    local part = Instance.new("Part")
+    part.Name = "HumanoidRootPart"
+    part.Size = Vector3.new(2, 2, 3)
+    part.Color = Color3.new(math.random(), math.random(), math.random())
+    part.Anchored = false
+    part.CanCollide = true
+    part.Parent = model
+    model.PrimaryPart = part
+
 
     local humanoid = Instance.new("Humanoid")
     humanoid.RootPart = part

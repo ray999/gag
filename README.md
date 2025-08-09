@@ -45,7 +45,8 @@ All core gameplay features have been implemented. The next step is to replace th
 - Fixed building component positions by assigning explicit CFrames, preventing structures from spawning below the ground level.
 - Renamed bootstrap scripts so server and client modules load correctly at runtime, resolving missing `PlayerManager` and `CoinDisplay` errors.
 - Assigned a `PrimaryPart` to every dog model, ensuring `SetPrimaryPartCFrame` works without errors.
-- Remotes are now created server-side and clients retrieve them via `ReplicatedStorage:WaitForChild`, removing the shared module dependency.
+- Named the dog models' primary part `HumanoidRootPart` so humanoids have a valid root part and modules load without errors.
+
 
 ### Building Models
 
