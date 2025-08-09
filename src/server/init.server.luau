@@ -4,5 +4,6 @@ require(script.Parent.AdoptionCenter)
 require(script.Parent.DogManager)
 require(script.Parent.PremiumShop)
 require(script.Parent.DogModelManager)
+require(script.Parent.StrayDogSpawner)
 
 print("Hello world, from server!")

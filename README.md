@@ -11,13 +11,16 @@ Dog World is a pet simulation game where players can adopt, collect, and care fo
 ### Core Features
 
 - **Pet Adoption:** Adopt dogs through different methods:
-  - **Snack Machine:** An automatic machine that attracts stray dogs every 10 seconds.
-  - **Adoption Center:** A center that restocks with 10 new dogs every 25 minutes, available for purchase with DogCoins.
+  - **Snack Machine:** An automatic machine that attracts stray dogs every 10 seconds. *(Unique ID: 1ac654213aa2686d08a84957000039b7)*
+  - **Adoption Center:** A center that restocks with 10 new dogs every minute (testing) available for purchase with DogCoins. *(UI Unique ID: 1ac654213aa2686d08a849570000224d)*
   - **Premium Shop:** A special shop to purchase limited edition dogs with Robux.
+- **Stray Dogs:** Various stray dogs wander the world and can be found roaming around.
+- **Dog Models:** All dog models are tagged with unique IDs for asset tracking (1ac654213aa2686d08a8495700003cb1, 1ac654213aa2686d08a8495700003d3d, 1ac654213aa2686d08a8495700003ec7, 1ac654213aa2686d08a8495700003f40).
 - **Economy System:**
-  - **DogCoins:** The primary in-game currency. Players automatically receive 500 DogCoins every 3 minutes.
+  - **DogCoins:** The primary in-game currency. Players automatically receive 500 DogCoins every minute (testing).
   - **Robux:** Used for purchasing exclusive, limited-edition dogs.
-- **Dog Requests:** Your dogs will occasionally have requests (e.g., playing, eating). Fulfilling these requests rewards you with DogCoins.
+  - **Wallet Display:** The player's current DogCoin balance is always visible on screen. *(Unique ID: 1ac654213aa2686d08a8495700003bcb)*
+- **Dog Requests:** Your dogs will occasionally have requests (e.g., playing, eating). Fulfilling these requests rewards you with DogCoins. During testing, these occur every 30–60 seconds.
 
 ## Current Status
 
@@ -26,6 +29,9 @@ All core gameplay features have been implemented. The next step is to replace th
 ### Recent Fixes
 
 - Reordered the `CFrame` elements in `src/buildings/AdoptionCenter.rbxmx` so that position fields precede rotation components, resolving the malformed XML error that prevented `rojo serve` from running.
+- Added roaming stray dogs and expanded the list of available breeds.
+- Shortened in-game timers to one minute for faster testing.
+- Tagged the adoption UI, pet snack machine, DogCoin wallet, and dog models with unique IDs for asset tracking.
 
 ## Getting Started
 To build the place from scratch, use:

@@ -36,7 +36,7 @@ for _, player in ipairs(Players:GetPlayers()) do
 end
 
 task.spawn(function()
-    while task.wait(180) do
+    while task.wait(60) do
         for player, data in pairs(playerData) do
             data.DogCoins = data.DogCoins + 500
             print("Gave 500 DogCoins to " .. player.Name .. ". New balance: " .. data.DogCoins)

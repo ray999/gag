@@ -8,21 +8,22 @@ local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
 local screenGui = Instance.new("ScreenGui", playerGui)
-screenGui.Name = "DogCoinGui"
+screenGui.Name = "WalletGui"
+screenGui:SetAttribute("uniqueID", "1ac654213aa2686d08a8495700003bcb")
 
-local coinLabel = Instance.new("TextLabel", screenGui)
-coinLabel.Name = "CoinLabel"
-coinLabel.Size = UDim2.new(0, 200, 0, 50)
-coinLabel.Position = UDim2.new(0, 10, 0, 10)
-coinLabel.BackgroundColor3 = Color3.new(0, 0, 0)
-coinLabel.BackgroundTransparency = 0.5
-coinLabel.TextColor3 = Color3.new(1, 1, 1)
-coinLabel.Font = Enum.Font.SourceSansBold
-coinLabel.TextSize = 24
-coinLabel.Text = "DogCoins: ..."
+local walletLabel = Instance.new("TextLabel", screenGui)
+walletLabel.Name = "WalletLabel"
+walletLabel.Size = UDim2.new(0, 200, 0, 50)
+walletLabel.Position = UDim2.new(0, 10, 0, 10)
+walletLabel.BackgroundColor3 = Color3.new(0, 0, 0)
+walletLabel.BackgroundTransparency = 0.5
+walletLabel.TextColor3 = Color3.new(1, 1, 1)
+walletLabel.Font = Enum.Font.SourceSansBold
+walletLabel.TextSize = 24
+walletLabel.Text = "Wallet: ..."
 
 local function onUpdateDogCoins(newAmount)
-	coinLabel.Text = "DogCoins: " .. newAmount
+        walletLabel.Text = "Wallet: " .. newAmount
 end
 
 Remotes.UpdateDogCoins.OnClientEvent:Connect(onUpdateDogCoins)

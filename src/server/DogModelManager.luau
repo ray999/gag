@@ -7,11 +7,18 @@ local Remotes = require(ReplicatedStorage.Shared.Remotes)
 local DogModelManager = {}
 
 local dogModels = {}
+local dogUniqueIDs = {
+    "1ac654213aa2686d08a8495700003cb1",
+    "1ac654213aa2686d08a8495700003d3d",
+    "1ac654213aa2686d08a8495700003ec7",
+    "1ac654213aa2686d08a8495700003f40",
+}
 
 local function createDogModel(player, dogName)
     local model = Instance.new("Model")
     model.Name = dogName
     model.Parent = Workspace
+    model:SetAttribute("uniqueID", dogUniqueIDs[math.random(1, #dogUniqueIDs)])
 
     local part = Instance.new("Part")
     part.Size = Vector3.new(2, 2, 3)
@@ -40,6 +47,37 @@ local function createDogModel(player, dogName)
             task.wait(0.5)
         end
     end)
+
+    return model
+end
+
+local function createStrayDogModel(dogName)
+    local model = Instance.new("Model")
+    model.Name = dogName
+    model.Parent = Workspace
+    model:SetAttribute("uniqueID", dogUniqueIDs[math.random(1, #dogUniqueIDs)])
+
+    local part = Instance.new("Part")
+    part.Size = Vector3.new(2, 2, 3)
+    part.Color = Color3.new(math.random(), math.random(), math.random())
+    part.Anchored = false
+    part.CanCollide = true
+    part.Parent = model
+
+    local humanoid = Instance.new("Humanoid")
+    humanoid.Parent = model
+
+    model:SetPrimaryPartCFrame(CFrame.new(math.random(-50,50), 5, math.random(-50,50)))
+
+    task.spawn(function()
+        while model.Parent do
+            local randomTarget = model.PrimaryPart.Position + Vector3.new(math.random(-20,20), 0, math.random(-20,20))
+            humanoid:MoveTo(randomTarget)
+            task.wait(5)
+        end
+    end)
+
+    return model
 end
 
 local function onNewDog(player, dogName, allDogs)
@@ -67,6 +105,10 @@ Players.PlayerRemoving:Connect(onPlayerRemoving)
 
 function DogModelManager.CreateDogForPlayer(player, dogName)
     createDogModel(player, dogName)
+end
+
+function DogModelManager.CreateStrayDog(dogName)
+    return createStrayDogModel(dogName)
 end
 
 return DogModelManager
