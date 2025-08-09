@@ -93,9 +93,7 @@ local function onPlayerRemoving(player)
     end
 end
 
-Remotes.NewDogAlert.OnClientEvent:Connect(function(dogName, allDogs)
-    -- This needs to be handled on the server. We'll adjust the logic.
-end)
+Remotes.NewDogAlert.OnServerEvent:Connect(onNewDog)
 
 Players.PlayerRemoving:Connect(onPlayerRemoving)
 

@@ -3,43 +3,58 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Remotes = require(ReplicatedStorage.Shared.Remotes)
 local DogSettings = require(ReplicatedStorage.Shared.DogSettings)
+local AssetLoader = require(ReplicatedStorage.Shared.AssetLoader)
 
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
 -- Main GUI
-local screenGui = Instance.new("ScreenGui", playerGui)
-screenGui.Name = "AdoptionCenterGui"
+local screenGui = AssetLoader.loadGui("1ac654213aa2686d08a849570000224d", playerGui)
+if not screenGui then
+    screenGui = Instance.new("ScreenGui")
+    screenGui.Name = "AdoptionCenterGui"
+    screenGui.Parent = playerGui
+end
 screenGui:SetAttribute("uniqueID", "1ac654213aa2686d08a849570000224d")
 
 -- Adoption Center UI
-local mainFrame = Instance.new("Frame", screenGui)
-mainFrame.Name = "AdoptionCenterFrame"
-mainFrame.Size = UDim2.new(0, 500, 0, 400)
-mainFrame.Position = UDim2.new(0.5, -250, 0.5, -200)
-mainFrame.BackgroundColor3 = Color3.fromRGB(240, 240, 240)
-mainFrame.Visible = false
+local mainFrame = screenGui:FindFirstChild("AdoptionCenterFrame")
+if not mainFrame then
+    mainFrame = Instance.new("Frame", screenGui)
+    mainFrame.Name = "AdoptionCenterFrame"
+    mainFrame.Size = UDim2.new(0, 500, 0, 400)
+    mainFrame.Position = UDim2.new(0.5, -250, 0.5, -200)
+    mainFrame.BackgroundColor3 = Color3.fromRGB(240, 240, 240)
+    mainFrame.Visible = false
 
-local title = Instance.new("TextLabel", mainFrame)
-title.Size = UDim2.new(1, 0, 0, 50)
-title.Text = "Adoption Center"
-title.Font = Enum.Font.SourceSansBold
-title.TextSize = 24
+    local title = Instance.new("TextLabel", mainFrame)
+    title.Size = UDim2.new(1, 0, 0, 50)
+    title.Text = "Adoption Center"
+    title.Font = Enum.Font.SourceSansBold
+    title.TextSize = 24
+end
 
-local dogList = Instance.new("ScrollingFrame", mainFrame)
-dogList.Size = UDim2.new(1, -20, 1, -60)
-dogList.Position = UDim2.new(0, 10, 0, 50)
-dogList.BackgroundColor3 = Color3.fromRGB(220, 220, 220)
+local dogList = mainFrame:FindFirstChild("DogList")
+if not dogList then
+    dogList = Instance.new("ScrollingFrame", mainFrame)
+    dogList.Name = "DogList"
+    dogList.Size = UDim2.new(1, -20, 1, -60)
+    dogList.Position = UDim2.new(0, 10, 0, 50)
+    dogList.BackgroundColor3 = Color3.fromRGB(220, 220, 220)
 
-local listLayout = Instance.new("UIListLayout", dogList)
-listLayout.Padding = UDim.new(0, 5)
+    local listLayout = Instance.new("UIListLayout", dogList)
+    listLayout.Padding = UDim.new(0, 5)
+end
 
 -- Open/Close Button
-local toggleButton = Instance.new("TextButton", screenGui)
-toggleButton.Name = "AdoptionCenterButton"
-toggleButton.Size = UDim2.new(0, 150, 0, 50)
-toggleButton.Position = UDim2.new(1, -320, 0, 10)
-toggleButton.Text = "Adoption Center"
+local toggleButton = screenGui:FindFirstChild("AdoptionCenterButton")
+if not toggleButton then
+    toggleButton = Instance.new("TextButton", screenGui)
+    toggleButton.Name = "AdoptionCenterButton"
+    toggleButton.Size = UDim2.new(0, 150, 0, 50)
+    toggleButton.Position = UDim2.new(1, -320, 0, 10)
+    toggleButton.Text = "Adoption Center"
+end
 
 local function toggleUI()
     mainFrame.Visible = not mainFrame.Visible
@@ -87,3 +102,5 @@ Remotes.AdoptionCenterRestocked.OnClientEvent:Connect(updateDogList)
 -- Initial fetch
 local initialDogs = Remotes.GetAdoptionDogs:InvokeServer()
 updateDogList(initialDogs)
+
+return true
