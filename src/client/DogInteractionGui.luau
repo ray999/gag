@@ -12,7 +12,6 @@ local inventoryFrame = playerGui:WaitForChild("DogInventoryGui"):WaitForChild("I
 
 local function completeRequest(dogId)
     local success = Remotes.CompleteDogRequest:InvokeServer(dogId)
-
     if success then
         print("Request completed for dog " .. dogId)
     end
