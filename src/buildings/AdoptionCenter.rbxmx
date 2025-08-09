@@ -10,6 +10,9 @@
 				<Color3 name="Color"><R>1</R><G>0.8</G><B>0.8</B></Color3>
                                 <Vector3 name="Size"><X>20</X><Y>10</Y><Z>1</Z></Vector3>
                                 <CoordinateFrame name="CFrame">
+                                        <X>0</X>
+                                        <Y>5</Y>
+                                        <Z>-10</Z>
                                         <R00>1</R00>
                                         <R01>0</R01>
                                         <R02>0</R02>
@@ -19,12 +22,9 @@
                                         <R20>0</R20>
                                         <R21>0</R21>
                                         <R22>1</R22>
-                                        <X>0</X>
-                                        <Y>5</Y>
-                                        <Z>-10</Z>
                                 </CoordinateFrame>
-			</Properties>
-		</Item>
+                        </Properties>
+                </Item>
 		<Item class="Part" referent="RBX2">
 			<Properties>
 				<string name="Name">Wall2</string>
