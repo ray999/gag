@@ -29,11 +29,11 @@ local function attractDog(player)
     local chance = math.random()
 
     local dogName
-    if chance <= 0.05 then -- 5% chance for SuperRare
+    if chance <= 0.01 then -- 1% chance for SuperRare
         dogName = getDogByRarity("SuperRare")
-    elseif chance <= 0.20 then -- 15% chance for Rare (20% - 5%)
+    elseif chance <= 0.05 then -- 4% chance for Rare (5% - 1%)
         dogName = getDogByRarity("Rare")
-    elseif chance <= 0.80 then -- 60% chance for Common (80% - 20%)
+    elseif chance <= 0.20 then -- 15% chance for Common (20% - 5%)
         dogName = getDogByRarity("Common")
     end
 

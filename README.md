@@ -33,6 +33,9 @@ All core gameplay features have been implemented. The next step is to replace th
 
 ### Recent Fixes
 
+- Fixed `CompleteDogRequest` invocation in `DogInteractionGui` to prevent nil reference errors.
+- Reduced snack machine dog adoption chance to 20%.
+- Dogs now follow their owners while keeping a short distance to avoid overlap.
 - Removed assignment to `Humanoid.RootPart` in `DogModelManager`, relying on `PrimaryPart` to prevent read-only property errors.
 - Simplified dog creation by setting each model's `PrimaryPart` once after parenting and removing redundant `PivotTo` calls.
 - Reordered the `CFrame` elements in `src/buildings/AdoptionCenter.rbxmx` so that position fields precede rotation components, resolving the malformed XML error that prevented `rojo serve` from running.
