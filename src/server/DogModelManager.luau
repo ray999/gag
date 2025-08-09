@@ -1,7 +1,7 @@
 local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService("Workspace")
 local HttpService = game:GetService("HttpService")
+
 
 local DogModelManager = {}
 
@@ -15,15 +15,10 @@ local function createDogModel(player, dogName, dogId)
     dogId = dogId or HttpService:GenerateGUID(false)
     model:SetAttribute("uniqueID", dogId)
 
-    local part = Instance.new("Part")
-    part.Size = Vector3.new(2, 2, 3)
-    part.Color = Color3.new(math.random(), math.random(), math.random())
-    part.Anchored = false
-    part.CanCollide = true
-    part.Parent = model
-    model.PrimaryPart = part
+
 
     local humanoid = Instance.new("Humanoid")
+    humanoid.RootPart = part
     humanoid.Parent = model
 
     model:SetPrimaryPartCFrame(player.Character.PrimaryPart.CFrame + Vector3.new(3, 0, 3))
@@ -53,23 +48,28 @@ local function createStrayDogModel(dogName)
     model.Parent = Workspace
     model:SetAttribute("uniqueID", HttpService:GenerateGUID(false))
 
-    local part = Instance.new("Part")
-    part.Size = Vector3.new(2, 2, 3)
-    part.Color = Color3.new(math.random(), math.random(), math.random())
-    part.Anchored = false
-    part.CanCollide = true
-    part.Parent = model
-    model.PrimaryPart = part
+    local rootPart = Instance.new("Part")
+    rootPart.Name = "HumanoidRootPart"
+    rootPart.Size = Vector3.new(2, 2, 3)
+    rootPart.Color = Color3.new(math.random(), math.random(), math.random())
+    rootPart.Anchored = false
+    rootPart.CanCollide = true
+    rootPart.Parent = model
+    model.PrimaryPart = rootPart
 
     local humanoid = Instance.new("Humanoid")
+    humanoid.RootPart = part
     humanoid.Parent = model
 
     model:SetPrimaryPartCFrame(CFrame.new(math.random(-50,50), 5, math.random(-50,50)))
 
     task.spawn(function()
         while model.Parent do
-            local randomTarget = model.PrimaryPart.Position + Vector3.new(math.random(-20,20), 0, math.random(-20,20))
-            humanoid:MoveTo(randomTarget)
+            local primaryPart = model.PrimaryPart
+            if primaryPart then
+                local randomTarget = primaryPart.Position + Vector3.new(math.random(-20,20), 0, math.random(-20,20))
+                humanoid:MoveTo(randomTarget)
+            end
             task.wait(5)
         end
     end)

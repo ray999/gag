@@ -3,7 +3,7 @@ local Players = game:GetService("Players")
 
 local DogSettings = require(ReplicatedStorage.Shared.DogSettings)
 local PlayerManager = require(script.Parent.PlayerManager)
-local Remotes = require(ReplicatedStorage.Shared.Remotes)
+local Remotes = require(script.Parent.Remotes)
 local DogModelManager = require(script.Parent.DogModelManager)
 
 local AdoptionCenter = {}

@@ -11,17 +11,22 @@ Dog World is a pet simulation game where players can adopt, collect, and care fo
 ### Core Features
 
 - **Pet Adoption:** Adopt dogs through different methods:
-  - **Snack Machine:** An automatic machine that attracts stray dogs every 10 seconds. *(Unique ID: 1ac654213aa2686d08a84957000039b7)*
-  - **Adoption Center:** A center that restocks with 10 new dogs every minute (testing) available for purchase with DogCoins. *(UI Unique ID: 1ac654213aa2686d08a849570000224d)*
-  - **Premium Shop:** A special shop to purchase limited edition dogs with Robux.
+- **Snack Machine:** An automatic machine that attracts stray dogs every 10 seconds.
+- **Adoption Center:** A center that restocks with 10 new dogs every minute (testing) available for purchase with DogCoins.
+- **Premium Shop:** A special shop to purchase limited edition dogs with Robux.
 - **Stray Dogs:** Various stray dogs wander the world and can be found roaming around.
 - **Dog Models:** All dog models are tagged with unique IDs for asset tracking (1ac654213aa2686d08a8495700003cb1, 1ac654213aa2686d08a8495700003d3d, 1ac654213aa2686d08a8495700003ec7, 1ac654213aa2686d08a8495700003f40) and define a `PrimaryPart` for positioning.
 - **Dog IDs:** Each adopted dog now receives a unique GUID and is stored as a table `{Id, Name, Request}`. Client interfaces display these IDs and use them for request completion.
+
 - **Economy System:**
   - **DogCoins:** The primary in-game currency. Players automatically receive 500 DogCoins every minute (testing).
   - **Robux:** Used for purchasing exclusive, limited-edition dogs.
-  - **Wallet Display:** The player's current DogCoin balance is always visible on screen. *(Unique ID: 1ac654213aa2686d08a8495700003bcb)*
+- **Wallet Display:** The player's current DogCoin balance is always visible on screen.
 - **Dog Requests:** Your dogs will occasionally have requests (e.g., playing, eating). Fulfilling these requests rewards you with DogCoins. During testing, these occur every 30–60 seconds.
+
+### Networking
+
+All RemoteEvents and RemoteFunctions are created on the server under `ServerScriptService` and stored in `ReplicatedStorage`. Clients retrieve them using `ReplicatedStorage:WaitForChild("<RemoteName>")`.
 
 ## Current Status
 
@@ -32,7 +37,7 @@ All core gameplay features have been implemented. The next step is to replace th
 - Reordered the `CFrame` elements in `src/buildings/AdoptionCenter.rbxmx` so that position fields precede rotation components, resolving the malformed XML error that prevented `rojo serve` from running.
 - Added roaming stray dogs and expanded the list of available breeds.
 - Shortened in-game timers to one minute for faster testing.
-- Tagged the adoption UI, pet snack machine, DogCoin wallet, and dog models with unique IDs for asset tracking.
+- Tagged the pet snack machine and dog models with unique IDs for asset tracking.
 - Added an asset loader to retrieve UI components from the asset library by their unique IDs.
 - Reworked the asset loader to load IDs on the server with `InsertService` or on the client via `require`, eliminating `GetObjects` permission errors.
 - Updated client scripts to return a value so they can be required without runtime failures.
@@ -40,10 +45,25 @@ All core gameplay features have been implemented. The next step is to replace th
 - Fixed building component positions by assigning explicit CFrames, preventing structures from spawning below the ground level.
 - Renamed bootstrap scripts so server and client modules load correctly at runtime, resolving missing `PlayerManager` and `CoinDisplay` errors.
 - Assigned a `PrimaryPart` to every dog model, ensuring `SetPrimaryPartCFrame` works without errors.
+- Remotes are now created server-side and clients retrieve them via `ReplicatedStorage:WaitForChild`, removing the shared module dependency.
 
 ### Building Models
 
 - Ensure every building model has its `PrimaryPart` set (usually to the main `Body` part). Scripts rely on this to position models with `SetPrimaryPartCFrame`.
+
+### Dog Model Requirements
+
+- Every dog model is created with a unique `uniqueID` attribute generated via `HttpService:GenerateGUID`.
+- The model's `HumanoidRootPart` must be set as its `PrimaryPart` so behavior scripts can track and move the dog reliably.
+
+### Client Remotes and UI Assets
+
+- Client scripts retrieve remote events and functions by requiring `ReplicatedStorage.Shared.Remotes`.
+- UI components are loaded through `ReplicatedStorage.Shared.AssetLoader`, for example:
+  ```lua
+  local AssetLoader = require(ReplicatedStorage.Shared.AssetLoader)
+  local gui = AssetLoader.loadGui("<assetId>", playerGui)
+  ```
 
 ## Getting Started
 To build the place from scratch, use:
