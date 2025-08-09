@@ -22,14 +22,7 @@ local function createDogModel(player, dogName, dogId)
     part.Parent = model
 
     local humanoid = Instance.new("Humanoid")
-    humanoid.RootPart = part
     humanoid.Parent = model
-    model.PrimaryPart = part
-
-    if player.Character and player.Character.PrimaryPart then
-        model:PivotTo(player.Character.PrimaryPart.CFrame + Vector3.new(3, 0, 3))
-    end
-
     model.Parent = Workspace
     model.PrimaryPart = part
 
@@ -70,12 +63,7 @@ local function createStrayDogModel(dogName)
     part.Parent = model
 
     local humanoid = Instance.new("Humanoid")
-    humanoid.RootPart = part
     humanoid.Parent = model
-    model.PrimaryPart = part
-
-    model:PivotTo(CFrame.new(math.random(-50,50), 5, math.random(-50,50)))
-
     model.Parent = Workspace
     model.PrimaryPart = part
 

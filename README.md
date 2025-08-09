@@ -33,6 +33,8 @@ All core gameplay features have been implemented. The next step is to replace th
 
 ### Recent Fixes
 
+- Removed assignment to `Humanoid.RootPart` in `DogModelManager`, relying on `PrimaryPart` to prevent read-only property errors.
+- Simplified dog creation by setting each model's `PrimaryPart` once after parenting and removing redundant `PivotTo` calls.
 - Reordered the `CFrame` elements in `src/buildings/AdoptionCenter.rbxmx` so that position fields precede rotation components, resolving the malformed XML error that prevented `rojo serve` from running.
 - Added roaming stray dogs and expanded the list of available breeds.
 - Shortened in-game timers to one minute for faster testing.
