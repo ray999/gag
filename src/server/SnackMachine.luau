@@ -40,10 +40,11 @@ local function attractDog(player)
     if dogName then
         local playerData = PlayerManager.getPlayerState(player)
         if playerData and player.Character then
-            table.insert(playerData.Dogs, dogName)
+            local dogId = DogModelManager.CreateDogForPlayer(player, dogName)
+            local newDog = { Id = dogId, Name = dogName, Request = nil }
+            table.insert(playerData.Dogs, newDog)
             print(player.Name .. " has attracted a " .. dogName .. "!")
-            DogModelManager.CreateDogForPlayer(player, dogName)
-            Remotes.NewDogAlert:FireClient(player, dogName, playerData.Dogs)
+            Remotes.NewDogAlert:FireClient(player, newDog, playerData.Dogs)
         end
     end
 end

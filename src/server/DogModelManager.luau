@@ -1,26 +1,22 @@
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService("Workspace")
-
-local Remotes = require(ReplicatedStorage.Shared.Remotes)
+local HttpService = game:GetService("HttpService")
 
 local DogModelManager = {}
 
 local dogModels = {}
-local dogUniqueIDs = {
-    "1ac654213aa2686d08a8495700003cb1",
-    "1ac654213aa2686d08a8495700003d3d",
-    "1ac654213aa2686d08a8495700003ec7",
-    "1ac654213aa2686d08a8495700003f40",
-}
 
-local function createDogModel(player, dogName)
+local function createDogModel(player, dogName, dogId)
     local model = Instance.new("Model")
     model.Name = dogName
     model.Parent = Workspace
-    model:SetAttribute("uniqueID", dogUniqueIDs[math.random(1, #dogUniqueIDs)])
+
+    dogId = dogId or HttpService:GenerateGUID(false)
+    model:SetAttribute("uniqueID", dogId)
 
     local part = Instance.new("Part")
+    part.Name = "HumanoidRootPart"
     part.Size = Vector3.new(2, 2, 3)
     part.Color = Color3.new(math.random(), math.random(), math.random())
     part.Anchored = false
@@ -31,7 +27,9 @@ local function createDogModel(player, dogName)
     local humanoid = Instance.new("Humanoid")
     humanoid.Parent = model
 
-    model:SetPrimaryPartCFrame(player.Character.PrimaryPart.CFrame + Vector3.new(3, 0, 3))
+    if player.Character and player.Character.PrimaryPart then
+        model:SetPrimaryPartCFrame(player.Character.PrimaryPart.CFrame + Vector3.new(3, 0, 3))
+    end
 
     if not dogModels[player] then
         dogModels[player] = {}
@@ -49,16 +47,17 @@ local function createDogModel(player, dogName)
         end
     end)
 
-    return model
+    return model, dogId
 end
 
 local function createStrayDogModel(dogName)
     local model = Instance.new("Model")
     model.Name = dogName
     model.Parent = Workspace
-    model:SetAttribute("uniqueID", dogUniqueIDs[math.random(1, #dogUniqueIDs)])
+    model:SetAttribute("uniqueID", HttpService:GenerateGUID(false))
 
     local part = Instance.new("Part")
+    part.Name = "HumanoidRootPart"
     part.Size = Vector3.new(2, 2, 3)
     part.Color = Color3.new(math.random(), math.random(), math.random())
     part.Anchored = false
@@ -82,10 +81,6 @@ local function createStrayDogModel(dogName)
     return model
 end
 
-local function onNewDog(player, dogName, allDogs)
-    createDogModel(player, dogName)
-end
-
 local function onPlayerRemoving(player)
     if dogModels[player] then
         for _, model in ipairs(dogModels[player]) do
@@ -95,16 +90,10 @@ local function onPlayerRemoving(player)
     end
 end
 
-Remotes.NewDogAlert.OnServerEvent:Connect(onNewDog)
-
 Players.PlayerRemoving:Connect(onPlayerRemoving)
-
--- We need a server-side event to trigger dog creation.
--- Let's modify the NewDogAlert to be fired from the server to the server.
--- A better approach would be a dedicated signal module, but for now, this will work.
-
 function DogModelManager.CreateDogForPlayer(player, dogName)
-    createDogModel(player, dogName)
+    local _, id = createDogModel(player, dogName)
+    return id
 end
 
 function DogModelManager.CreateStrayDog(dogName)
