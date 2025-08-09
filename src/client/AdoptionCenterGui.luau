@@ -39,6 +39,11 @@ local function buyDog(dogName)
 end
 
 local function updateDogList(dogs)
+    if not dogList then
+        warn("AdoptionCenterGui: DogList not found")
+        return
+    end
+
     for _, child in ipairs(dogList:GetChildren()) do
         if child:IsA("Frame") then
             child:Destroy()
@@ -65,10 +70,12 @@ local function updateDogList(dogs)
     end
 end
 
-AdoptionCenterRestocked.OnClientEvent:Connect(updateDogList)
+if dogList then
+    AdoptionCenterRestocked.OnClientEvent:Connect(updateDogList)
 
--- Initial fetch
-local initialDogs = GetAdoptionDogs:InvokeServer()
-updateDogList(initialDogs)
+    -- Initial fetch
+    local initialDogs = GetAdoptionDogs:InvokeServer()
+    updateDogList(initialDogs)
+end
 
 return true
