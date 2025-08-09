@@ -13,8 +13,8 @@ LoadedAssets.Parent = ReplicatedStorage
 
 Remotes.LoadAsset.OnServerInvoke = function(_, assetId)
     local AssetLoader = require(ReplicatedStorage.Shared.AssetLoader)
-    AssetLoader.loadAsset(assetId)
-    return true
+    local loaded = AssetLoader.loadAsset(assetId)
+    return loaded ~= nil
 end
 
 -- Dog Coins & Inventory

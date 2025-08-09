@@ -33,6 +33,7 @@ All core gameplay features have been implemented. The next step is to replace th
 
 ### Recent Fixes
 
+- Gracefully handle unauthorized asset loads by returning failure status and avoiding infinite waits on clients.
 - Fixed `CompleteDogRequest` invocation in `DogInteractionGui` to prevent nil reference errors.
 - Reduced snack machine dog adoption chance to 20%.
 - Dogs now follow their owners while keeping a short distance to avoid overlap.
