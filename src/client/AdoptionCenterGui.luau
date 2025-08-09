@@ -5,19 +5,14 @@ local BuyDog = ReplicatedStorage:WaitForChild("BuyDog")
 local AdoptionCenterRestocked = ReplicatedStorage:WaitForChild("AdoptionCenterRestocked")
 local GetAdoptionDogs = ReplicatedStorage:WaitForChild("GetAdoptionDogs")
 local DogSettings = require(ReplicatedStorage.Shared.DogSettings)
-local AssetLoader = require(ReplicatedStorage.Shared.AssetLoader)
 
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
 -- Main GUI
-local screenGui = AssetLoader.loadGui("1ac654213aa2686d08a849570000224d", playerGui)
-if not screenGui then
-    screenGui = Instance.new("ScreenGui")
-    screenGui.Name = "AdoptionCenterGui"
-    screenGui.Parent = playerGui
-end
-screenGui:SetAttribute("uniqueID", "1ac654213aa2686d08a849570000224d")
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "AdoptionCenterGui"
+screenGui.Parent = playerGui
 
 -- Adoption Center UI
 local mainFrame = screenGui:FindFirstChild("AdoptionCenterFrame")
