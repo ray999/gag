@@ -13,7 +13,7 @@ end
 local function onPlayerAdded(player)
 	playerData[player] = {
 		DogCoins = 0,
-		Dogs = {}
+		Dogs = {}, -- { Id = string, Name = string, Request = string? }
 	}
 	print(player.Name .. " has joined the game!")
 

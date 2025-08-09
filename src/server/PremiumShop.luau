@@ -29,10 +29,11 @@ local function processReceipt(receiptInfo)
     end
 
     if dogName then
-        table.insert(playerData.Dogs, dogName)
+        local dogId = DogModelManager.CreateDogForPlayer(player, dogName)
+        local newDog = { Id = dogId, Name = dogName, Request = nil }
+        table.insert(playerData.Dogs, newDog)
         print(player.Name .. " has purchased a " .. dogName .. "!")
-        DogModelManager.CreateDogForPlayer(player, dogName)
-        Remotes.NewDogAlert:FireClient(player, dogName, playerData.Dogs)
+        Remotes.NewDogAlert:FireClient(player, newDog, playerData.Dogs)
         return Enum.ProductPurchaseDecision.PurchaseGranted
     else
         warn("Could not find dog with ProductId: " .. receiptInfo.ProductId)

@@ -2,26 +2,19 @@ local Players = game:GetService("Players")
 local Workspace = game:GetService("Workspace")
 local HttpService = game:GetService("HttpService")
 
-local Remotes = require(script.Parent.Remotes)
 
 local DogModelManager = {}
 
 local dogModels = {}
 
-local function createDogModel(player, dogName)
+local function createDogModel(player, dogName, dogId)
     local model = Instance.new("Model")
     model.Name = dogName
     model.Parent = Workspace
-    model:SetAttribute("uniqueID", HttpService:GenerateGUID(false))
 
-    local rootPart = Instance.new("Part")
-    rootPart.Name = "HumanoidRootPart"
-    rootPart.Size = Vector3.new(2, 2, 3)
-    rootPart.Color = Color3.new(math.random(), math.random(), math.random())
-    rootPart.Anchored = false
-    rootPart.CanCollide = true
-    rootPart.Parent = model
-    model.PrimaryPart = rootPart
+    dogId = dogId or HttpService:GenerateGUID(false)
+    model:SetAttribute("uniqueID", dogId)
+
 
 
     local humanoid = Instance.new("Humanoid")
@@ -46,7 +39,7 @@ local function createDogModel(player, dogName)
         end
     end)
 
-    return model
+    return model, dogId
 end
 
 local function createStrayDogModel(dogName)
@@ -84,10 +77,6 @@ local function createStrayDogModel(dogName)
     return model
 end
 
-local function onNewDog(player, dogName, allDogs)
-    createDogModel(player, dogName)
-end
-
 local function onPlayerRemoving(player)
     if dogModels[player] then
         for _, model in ipairs(dogModels[player]) do
@@ -97,16 +86,10 @@ local function onPlayerRemoving(player)
     end
 end
 
-Remotes.NewDogAlert.OnServerEvent:Connect(onNewDog)
-
 Players.PlayerRemoving:Connect(onPlayerRemoving)
-
--- We need a server-side event to trigger dog creation.
--- Let's modify the NewDogAlert to be fired from the server to the server.
--- A better approach would be a dedicated signal module, but for now, this will work.
-
 function DogModelManager.CreateDogForPlayer(player, dogName)
-    createDogModel(player, dogName)
+    local _, id = createDogModel(player, dogName)
+    return id
 end
 
 function DogModelManager.CreateStrayDog(dogName)

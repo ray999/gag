@@ -63,17 +63,17 @@ local function updateDogList(dogs)
         end
     end
 
-    for _, dogName in ipairs(dogs) do
+    for _, dog in ipairs(dogs) do
         local dogLabel = Instance.new("TextLabel", inventoryFrame)
-        dogLabel.Text = dogName
+        dogLabel.Text = dog.Name .. " (" .. dog.Id .. ")"
         dogLabel.Size = UDim2.new(1, -10, 0, 30)
         dogLabel.TextColor3 = Color3.new(1, 1, 1)
     end
 end
 
-local function onNewDog(dogName, allDogs)
+local function onNewDog(dog, allDogs)
     -- Show alert
-    alertLabel.Text = "You got a new dog: " .. dogName .. "!"
+    alertLabel.Text = "You got a new dog: " .. dog.Name .. " (" .. dog.Id .. ")!"
     alertFrame.Visible = true
     task.wait(3)
     alertFrame.Visible = false
