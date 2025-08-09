@@ -26,6 +26,7 @@ local function createDogModel(player, dogName)
     part.Anchored = false
     part.CanCollide = true
     part.Parent = model
+    model.PrimaryPart = part
 
     local humanoid = Instance.new("Humanoid")
     humanoid.Parent = model
@@ -63,6 +64,7 @@ local function createStrayDogModel(dogName)
     part.Anchored = false
     part.CanCollide = true
     part.Parent = model
+    model.PrimaryPart = part
 
     local humanoid = Instance.new("Humanoid")
     humanoid.Parent = model
