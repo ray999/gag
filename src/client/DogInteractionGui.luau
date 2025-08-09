@@ -8,10 +8,10 @@ local playerGui = player:WaitForChild("PlayerGui")
 
 local inventoryFrame = playerGui:WaitForChild("DogInventoryGui"):WaitForChild("InventoryFrame")
 
-local function completeRequest(dogName)
-    local success = Remotes.CompleteDogRequest:InvokeServer(dogName)
+local function completeRequest(dogId)
+    local success = Remotes.CompleteDogRequest:InvokeServer(dogId)
     if success then
-        print("Request completed for " .. dogName)
+        print("Request completed for dog " .. dogId)
     end
 end
 
@@ -22,23 +22,20 @@ local function updateDogListWithRequests(dogs)
         end
     end
 
-    for _, dogData in ipairs(dogs) do
-        local dogName = type(dogData) == "string" and dogData or dogData.Name
-        local request = type(dogData) == "table" and dogData.Request or nil
-
+    for _, dog in ipairs(dogs) do
         local itemFrame = Instance.new("Frame", inventoryFrame)
         itemFrame.Size = UDim2.new(1, 0, 0, 60)
 
         local nameLabel = Instance.new("TextLabel", itemFrame)
         nameLabel.Size = UDim2.new(1, 0, 0.5, 0)
-        nameLabel.Text = dogName
+        nameLabel.Text = dog.Name .. " (" .. dog.Id .. ")"
         nameLabel.TextColor3 = Color3.new(1,1,1)
 
-        if request then
+        if dog.Request then
             local requestLabel = Instance.new("TextLabel", itemFrame)
             requestLabel.Size = UDim2.new(0.7, 0, 0.5, 0)
             requestLabel.Position = UDim2.new(0, 0, 0.5, 0)
-            requestLabel.Text = "Wants to: " .. request
+            requestLabel.Text = "Wants to: " .. dog.Request
             requestLabel.TextColor3 = Color3.new(1,1,0)
 
             local completeButton = Instance.new("TextButton", itemFrame)
@@ -46,7 +43,7 @@ local function updateDogListWithRequests(dogs)
             completeButton.Position = UDim2.new(0.7, 0, 0.5, 0)
             completeButton.Text = "Complete"
             completeButton.MouseButton1Click:Connect(function()
-                completeRequest(dogName)
+                completeRequest(dog.Id)
             end)
         end
     end
