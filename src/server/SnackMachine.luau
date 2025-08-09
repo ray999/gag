@@ -53,11 +53,15 @@ local function setupMachineForPlayer(player)
     machineClone.Name = player.Name .. "'s Snack Machine"
     machineClone.Parent = Workspace
 
-    if player.Character then
+    machineClone.PrimaryPart = machineClone:FindFirstChild("Body")
+
+    if player.Character and machineClone.PrimaryPart then
         machineClone:SetPrimaryPartCFrame(player.Character:GetPrimaryPartCFrame() + Vector3.new(5, 0, 5))
     end
     player.CharacterAdded:Connect(function(character)
-        machineClone:SetPrimaryPartCFrame(character:GetPrimaryPartCFrame() + Vector3.new(5, 0, 5))
+        if machineClone.PrimaryPart then
+            machineClone:SetPrimaryPartCFrame(character:GetPrimaryPartCFrame() + Vector3.new(5, 0, 5))
+        end
     end)
 
     task.spawn(function()
