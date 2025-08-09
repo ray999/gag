@@ -36,11 +36,15 @@ function AssetLoader.loadAsset(assetId)
         local asset = AssetsFolder:FindFirstChild(tostring(assetId))
         if not asset then
             local loadRemote = ReplicatedStorage:WaitForChild("LoadAsset")
-            local ok = pcall(function()
-                loadRemote:InvokeServer(assetId)
+            local ok, loaded = pcall(function()
+                return loadRemote:InvokeServer(assetId)
             end)
-            if ok then
-                asset = AssetsFolder:WaitForChild(tostring(assetId))
+            if ok and loaded then
+                asset = AssetsFolder:WaitForChild(tostring(assetId), 5)
+                if not asset then
+                    warn("Failed to load asset with ID " .. tostring(assetId))
+                    return nil
+                end
             else
                 warn("Failed to load asset with ID " .. tostring(assetId))
                 return nil
