@@ -44,6 +44,7 @@ All core gameplay features have been implemented. The next step is to replace th
 - Tagged the pet snack machine and dog models with unique IDs for asset tracking.
 - Added an asset loader to retrieve UI components from the asset library by their unique IDs.
 - Reworked the asset loader to load IDs on the server with `InsertService` or on the client via `require`, eliminating `GetObjects` permission errors.
+- Assets are now loaded on the server and replicated to clients, removing client-side `require(assetId)` warnings.
 - Updated client scripts to return a value so they can be required without runtime failures.
 - Corrected `DogModelManager` to use `OnServerEvent` instead of `OnClientEvent`, resolving the server-side event error.
 - Fixed building component positions by assigning explicit CFrames, preventing structures from spawning below the ground level.

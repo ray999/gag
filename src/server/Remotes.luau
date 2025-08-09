@@ -2,6 +2,21 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Remotes = {}
 
+-- Asset Loading
+Remotes.LoadAsset = Instance.new("RemoteFunction")
+Remotes.LoadAsset.Name = "LoadAsset"
+Remotes.LoadAsset.Parent = ReplicatedStorage
+
+local LoadedAssets = Instance.new("Folder")
+LoadedAssets.Name = "LoadedAssets"
+LoadedAssets.Parent = ReplicatedStorage
+
+Remotes.LoadAsset.OnServerInvoke = function(_, assetId)
+    local AssetLoader = require(ReplicatedStorage.Shared.AssetLoader)
+    AssetLoader.loadAsset(assetId)
+    return true
+end
+
 -- Dog Coins & Inventory
 Remotes.UpdateDogCoins = Instance.new("RemoteEvent")
 Remotes.UpdateDogCoins.Name = "UpdateDogCoins"

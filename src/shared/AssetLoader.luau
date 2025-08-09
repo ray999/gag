@@ -1,5 +1,8 @@
 local InsertService = game:GetService("InsertService")
 local RunService = game:GetService("RunService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local AssetsFolder = ReplicatedStorage:WaitForChild("LoadedAssets")
 
 local AssetLoader = {}
 
@@ -10,21 +13,40 @@ function AssetLoader.loadAsset(assetId)
         return nil
     end
 
-    local ok, result = pcall(function()
-        if RunService:IsServer() then
-            local model = InsertService:LoadAsset(numericId)
-            return model and model:GetChildren()[1]
-        else
-            return require(numericId)
+    if RunService:IsServer() then
+        local existing = AssetsFolder:FindFirstChild(tostring(assetId))
+        if existing then
+            return existing:Clone()
         end
-    end)
 
-    if ok and result then
-        return result
-    else
-        warn("Failed to load asset with ID " .. tostring(assetId) .. ": " .. tostring(result))
-
+        local ok, model = pcall(function()
+            return InsertService:LoadAsset(numericId)
+        end)
+        if ok and model then
+            local obj = model:GetChildren()[1]
+            if obj then
+                obj.Name = tostring(assetId)
+                obj.Parent = AssetsFolder
+                return obj:Clone()
+            end
+        end
+        warn("Failed to load asset with ID " .. tostring(assetId) .. ": " .. tostring(model))
         return nil
+    else
+        local asset = AssetsFolder:FindFirstChild(tostring(assetId))
+        if not asset then
+            local loadRemote = ReplicatedStorage:WaitForChild("LoadAsset")
+            local ok = pcall(function()
+                loadRemote:InvokeServer(assetId)
+            end)
+            if ok then
+                asset = AssetsFolder:WaitForChild(tostring(assetId))
+            else
+                warn("Failed to load asset with ID " .. tostring(assetId))
+                return nil
+            end
+        end
+        return asset and asset:Clone() or nil
     end
 end
 
