@@ -43,7 +43,10 @@ local function buyDog(player, dogName)
     end
 
     playerData.DogCoins = playerData.DogCoins - dogInfo.Price
-    table.insert(player.Character and playerData.Dogs or {}, dogName)
+
+    local dogId = DogModelManager.CreateDogForPlayer(player, dogName)
+    local newDog = { Id = dogId, Name = dogName, Request = nil }
+    table.insert(playerData.Dogs, newDog)
 
     -- Remove dog from adoption center
     for i, name in ipairs(availableDogs) do
@@ -54,8 +57,7 @@ local function buyDog(player, dogName)
     end
 
     Remotes.UpdateDogCoins:FireClient(player, playerData.DogCoins)
-    Remotes.NewDogAlert:FireClient(player, dogName, playerData.Dogs)
-    DogModelManager.CreateDogForPlayer(player, dogName)
+    Remotes.NewDogAlert:FireClient(player, newDog, playerData.Dogs)
     Remotes.AdoptionCenterRestocked:FireAllClients(availableDogs) -- Update for all clients
 
     print(player.Name .. " bought a " .. dogName)

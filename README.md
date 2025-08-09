@@ -16,6 +16,7 @@ Dog World is a pet simulation game where players can adopt, collect, and care fo
   - **Premium Shop:** A special shop to purchase limited edition dogs with Robux.
 - **Stray Dogs:** Various stray dogs wander the world and can be found roaming around.
 - **Dog Models:** All dog models are tagged with unique IDs for asset tracking (1ac654213aa2686d08a8495700003cb1, 1ac654213aa2686d08a8495700003d3d, 1ac654213aa2686d08a8495700003ec7, 1ac654213aa2686d08a8495700003f40) and define a `PrimaryPart` for positioning.
+- **Dog IDs:** Each adopted dog now receives a unique GUID and is stored as a table `{Id, Name, Request}`. Client interfaces display these IDs and use them for request completion.
 - **Economy System:**
   - **DogCoins:** The primary in-game currency. Players automatically receive 500 DogCoins every minute (testing).
   - **Robux:** Used for purchasing exclusive, limited-edition dogs.
@@ -39,6 +40,9 @@ All core gameplay features have been implemented. The next step is to replace th
 - Fixed building component positions by assigning explicit CFrames, preventing structures from spawning below the ground level.
 - Renamed bootstrap scripts so server and client modules load correctly at runtime, resolving missing `PlayerManager` and `CoinDisplay` errors.
 - Assigned a `PrimaryPart` to every dog model, ensuring `SetPrimaryPartCFrame` works without errors.
+- Named the dog models' primary part `HumanoidRootPart` so humanoids have a valid root part and modules load without errors.
+- Set dog models' `PrimaryPart` after the humanoid is parented to avoid read-only `RootPart` assignment errors.
+- Parent dog models to the workspace only after they are fully initialized, preventing `RootPart` property assignment failures.
 
 ### Building Models
 
