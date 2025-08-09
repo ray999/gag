@@ -24,7 +24,9 @@ local function createDogModel(player, dogName)
     rootPart.Parent = model
     model.PrimaryPart = rootPart
 
+
     local humanoid = Instance.new("Humanoid")
+    humanoid.RootPart = part
     humanoid.Parent = model
 
     model:SetPrimaryPartCFrame(player.Character.PrimaryPart.CFrame + Vector3.new(3, 0, 3))
@@ -64,14 +66,18 @@ local function createStrayDogModel(dogName)
     model.PrimaryPart = rootPart
 
     local humanoid = Instance.new("Humanoid")
+    humanoid.RootPart = part
     humanoid.Parent = model
 
     model:SetPrimaryPartCFrame(CFrame.new(math.random(-50,50), 5, math.random(-50,50)))
 
     task.spawn(function()
         while model.Parent do
-            local randomTarget = model.PrimaryPart.Position + Vector3.new(math.random(-20,20), 0, math.random(-20,20))
-            humanoid:MoveTo(randomTarget)
+            local primaryPart = model.PrimaryPart
+            if primaryPart then
+                local randomTarget = primaryPart.Position + Vector3.new(math.random(-20,20), 0, math.random(-20,20))
+                humanoid:MoveTo(randomTarget)
+            end
             task.wait(5)
         end
     end)
