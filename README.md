@@ -25,7 +25,7 @@ All core gameplay features have been implemented. The next step is to replace th
 
 ### Recent Fixes
 
-- Resolved malformed XML in `src/buildings/AdoptionCenter.rbxmx` that prevented `rojo serve` from running.
+- Fixed the `CFrame` property in `src/buildings/AdoptionCenter.rbxmx` by expanding it into explicit rotation and position fields, resolving malformed XML that prevented `rojo serve` from running.
 
 ## Getting Started
 To build the place from scratch, use:
@@ -41,3 +41,4 @@ rojo serve
 ```
 
 For more help, check out [the Rojo documentation](https://rojo.space/docs).
+
