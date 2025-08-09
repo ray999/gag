@@ -1,32 +1,28 @@
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService("Workspace")
+local HttpService = game:GetService("HttpService")
 
 local Remotes = require(ReplicatedStorage.Shared.Remotes)
 
 local DogModelManager = {}
 
 local dogModels = {}
-local dogUniqueIDs = {
-    "1ac654213aa2686d08a8495700003cb1",
-    "1ac654213aa2686d08a8495700003d3d",
-    "1ac654213aa2686d08a8495700003ec7",
-    "1ac654213aa2686d08a8495700003f40",
-}
 
 local function createDogModel(player, dogName)
     local model = Instance.new("Model")
     model.Name = dogName
     model.Parent = Workspace
-    model:SetAttribute("uniqueID", dogUniqueIDs[math.random(1, #dogUniqueIDs)])
+    model:SetAttribute("uniqueID", HttpService:GenerateGUID(false))
 
-    local part = Instance.new("Part")
-    part.Size = Vector3.new(2, 2, 3)
-    part.Color = Color3.new(math.random(), math.random(), math.random())
-    part.Anchored = false
-    part.CanCollide = true
-    part.Parent = model
-    model.PrimaryPart = part
+    local rootPart = Instance.new("Part")
+    rootPart.Name = "HumanoidRootPart"
+    rootPart.Size = Vector3.new(2, 2, 3)
+    rootPart.Color = Color3.new(math.random(), math.random(), math.random())
+    rootPart.Anchored = false
+    rootPart.CanCollide = true
+    rootPart.Parent = model
+    model.PrimaryPart = rootPart
 
     local humanoid = Instance.new("Humanoid")
     humanoid.Parent = model
@@ -56,15 +52,16 @@ local function createStrayDogModel(dogName)
     local model = Instance.new("Model")
     model.Name = dogName
     model.Parent = Workspace
-    model:SetAttribute("uniqueID", dogUniqueIDs[math.random(1, #dogUniqueIDs)])
+    model:SetAttribute("uniqueID", HttpService:GenerateGUID(false))
 
-    local part = Instance.new("Part")
-    part.Size = Vector3.new(2, 2, 3)
-    part.Color = Color3.new(math.random(), math.random(), math.random())
-    part.Anchored = false
-    part.CanCollide = true
-    part.Parent = model
-    model.PrimaryPart = part
+    local rootPart = Instance.new("Part")
+    rootPart.Name = "HumanoidRootPart"
+    rootPart.Size = Vector3.new(2, 2, 3)
+    rootPart.Color = Color3.new(math.random(), math.random(), math.random())
+    rootPart.Anchored = false
+    rootPart.CanCollide = true
+    rootPart.Parent = model
+    model.PrimaryPart = rootPart
 
     local humanoid = Instance.new("Humanoid")
     humanoid.Parent = model
