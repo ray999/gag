@@ -1,7 +1,7 @@
 local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService("Workspace")
 local HttpService = game:GetService("HttpService")
+
 
 local DogModelManager = {}
 
@@ -24,7 +24,9 @@ local function createDogModel(player, dogName, dogId)
     part.Parent = model
     model.PrimaryPart = part
 
+
     local humanoid = Instance.new("Humanoid")
+    humanoid.RootPart = part
     humanoid.Parent = model
 
     if player.Character and player.Character.PrimaryPart then
@@ -65,15 +67,20 @@ local function createStrayDogModel(dogName)
     part.Parent = model
     model.PrimaryPart = part
 
+
     local humanoid = Instance.new("Humanoid")
+    humanoid.RootPart = part
     humanoid.Parent = model
 
     model:SetPrimaryPartCFrame(CFrame.new(math.random(-50,50), 5, math.random(-50,50)))
 
     task.spawn(function()
         while model.Parent do
-            local randomTarget = model.PrimaryPart.Position + Vector3.new(math.random(-20,20), 0, math.random(-20,20))
-            humanoid:MoveTo(randomTarget)
+            local primaryPart = model.PrimaryPart
+            if primaryPart then
+                local randomTarget = primaryPart.Position + Vector3.new(math.random(-20,20), 0, math.random(-20,20))
+                humanoid:MoveTo(randomTarget)
+            end
             task.wait(5)
         end
     end)

@@ -1,7 +1,9 @@
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local Remotes = require(ReplicatedStorage.Shared.Remotes)
+local CompleteDogRequest = ReplicatedStorage:WaitForChild("CompleteDogRequest")
+local DogRequestUpdate = ReplicatedStorage:WaitForChild("DogRequestUpdate")
+local NewDogAlert = ReplicatedStorage:WaitForChild("NewDogAlert")
 
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
@@ -10,6 +12,7 @@ local inventoryFrame = playerGui:WaitForChild("DogInventoryGui"):WaitForChild("I
 
 local function completeRequest(dogId)
     local success = Remotes.CompleteDogRequest:InvokeServer(dogId)
+
     if success then
         print("Request completed for dog " .. dogId)
     end
@@ -49,7 +52,7 @@ local function updateDogListWithRequests(dogs)
     end
 end
 
-Remotes.DogRequestUpdate.OnClientEvent:Connect(updateDogListWithRequests)
-Remotes.NewDogAlert.OnClientEvent:Connect(function(_, dogs) updateDogListWithRequests(dogs) end)
+DogRequestUpdate.OnClientEvent:Connect(updateDogListWithRequests)
+NewDogAlert.OnClientEvent:Connect(function(_, dogs) updateDogListWithRequests(dogs) end)
 
 return true
