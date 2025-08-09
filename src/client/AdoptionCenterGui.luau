@@ -1,7 +1,9 @@
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local Remotes = require(ReplicatedStorage.Shared.Remotes)
+local BuyDog = ReplicatedStorage:WaitForChild("BuyDog")
+local AdoptionCenterRestocked = ReplicatedStorage:WaitForChild("AdoptionCenterRestocked")
+local GetAdoptionDogs = ReplicatedStorage:WaitForChild("GetAdoptionDogs")
 local DogSettings = require(ReplicatedStorage.Shared.DogSettings)
 local AssetLoader = require(ReplicatedStorage.Shared.AssetLoader)
 
@@ -63,7 +65,7 @@ end
 toggleButton.MouseButton1Click:Connect(toggleUI)
 
 local function buyDog(dogName)
-    local success, message = Remotes.BuyDog:InvokeServer(dogName)
+    local success, message = BuyDog:InvokeServer(dogName)
     if not success then
         -- TODO: Show an error message to the player
         print(message)
@@ -97,10 +99,10 @@ local function updateDogList(dogs)
     end
 end
 
-Remotes.AdoptionCenterRestocked.OnClientEvent:Connect(updateDogList)
+AdoptionCenterRestocked.OnClientEvent:Connect(updateDogList)
 
 -- Initial fetch
-local initialDogs = Remotes.GetAdoptionDogs:InvokeServer()
+local initialDogs = GetAdoptionDogs:InvokeServer()
 updateDogList(initialDogs)
 
 return true

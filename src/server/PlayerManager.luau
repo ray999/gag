@@ -1,7 +1,6 @@
 local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local Remotes = require(ReplicatedStorage.Shared.Remotes)
+local Remotes = require(script.Parent.Remotes)
 
 local PlayerManager = {}
 
