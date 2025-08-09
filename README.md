@@ -34,6 +34,8 @@ All core gameplay features have been implemented. The next step is to replace th
 - Tagged the adoption UI, pet snack machine, DogCoin wallet, and dog models with unique IDs for asset tracking.
 - Added an asset loader to retrieve UI components from the asset library by their unique IDs.
 - Fixed building component positions by assigning explicit CFrames, preventing structures from spawning below the ground level.
+- Renamed bootstrap scripts so server and client modules load correctly at runtime, resolving missing `PlayerManager` and `CoinDisplay` errors.
+
 
 ## Getting Started
 To build the place from scratch, use:
