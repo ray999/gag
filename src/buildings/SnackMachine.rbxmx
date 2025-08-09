@@ -1,0 +1,24 @@
+<roblox xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.roblox.com/roblox.xsd" version="4">
+	<Item class="Model" referent="RBX0">
+		<Properties>
+			<string name="Name">SnackMachine</string>
+		</Properties>
+		<Item class="Part" referent="RBX1">
+			<Properties>
+				<string name="Name">Body</string>
+				<bool name="Anchored">true</bool>
+				<Color3 name="Color"><R>0.5</R><G>0.5</G><B>1</B></Color3>
+				<Vector3 name="Size"><X>4</X><Y>6</Y><Z>2</Z></Vector3>
+			</Properties>
+		</Item>
+		<Item class="Part" referent="RBX2">
+			<Properties>
+				<string name="Name">Spout</string>
+				<bool name="Anchored">true</bool>
+				<Color3 name="Color"><R>0.8</R><G>0.8</G><B>0.8</B></Color3>
+				<Vector3 name="Size"><X>1</X><Y>1</Y><Z>1</Z></Vector3>
+				
+			</Properties>
+		</Item>
+	</Item>
+</roblox>

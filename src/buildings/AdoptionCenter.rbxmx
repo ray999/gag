@@ -1,0 +1,34 @@
+<roblox xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.roblox.com/roblox.xsd" version="4">
+	<Item class="Model" referent="RBX0">
+		<Properties>
+			<string name="Name">AdoptionCenter</string>
+		</Properties>
+		<Item class="Part" referent="RBX1">
+			<Properties>
+				<string name="Name">Wall1</string>
+				<bool name="Anchored">true</bool>
+				<Color3 name="Color"><R>1</R><G>0.8</G><B>0.8</B></Color3>
+				<Vector3 name="Size"><X>20</X><Y>10</Y><Z>1</Z></Vector3>
+				<CoordinateFrame name="CFrame"><![CDATA[1 0 0 0 1 0 0 0 1 0 5 -10]]></CoordinateFrame>
+			</Properties>
+		</Item>
+		<Item class="Part" referent="RBX2">
+			<Properties>
+				<string name="Name">Wall2</string>
+				<bool name="Anchored">true</bool>
+				<Color3 name="Color"><R>1</R><G>0.8</G><B>0.8</B></Color3>
+				<Vector3 name="Size"><X>20</X><Y>10</Y><Z>1</Z></Vector3>
+				
+			</Properties>
+		</Item>
+		<Item class="Part" referent="RBX3">
+			<Properties>
+				<string name="Name">Roof</string>
+				<bool name="Anchored">true</bool>
+				<Color3 name="Color"><R>0.8</R><G>0.6</G><B>0.6</B></Color3>
+				<Vector3 name="Size"><X>20</X><Y>1</Y><Z>21</Z></Vector3>
+				
+			</Properties>
+		</Item>
+	</Item>
+</roblox>

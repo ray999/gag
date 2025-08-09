@@ -1,0 +1,77 @@
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+local Workspace = game:GetService("Workspace")
+
+local DogSettings = require(ReplicatedStorage.Shared.DogSettings)
+local PlayerManager = require(script.Parent.PlayerManager)
+local Remotes = require(ReplicatedStorage.Shared.Remotes)
+local DogModelManager = require(script.Parent.DogModelManager)
+
+local SnackMachine = {}
+
+local snackMachineModel = Workspace.GameBuildings.SnackMachine
+
+local function getDogByRarity(rarity)
+    local dogsOfRarity = {}
+    for name, data in pairs(DogSettings.Dogs) do
+        if data.Rarity == rarity then
+            table.insert(dogsOfRarity, name)
+        end
+    end
+    if #dogsOfRarity > 0 then
+        return dogsOfRarity[math.random(1, #dogsOfRarity)]
+    end
+    return nil
+end
+
+local function attractDog(player)
+    local chance = math.random()
+
+    local dogName
+    if chance <= 0.05 then -- 5% chance for SuperRare
+        dogName = getDogByRarity("SuperRare")
+    elseif chance <= 0.20 then -- 15% chance for Rare (20% - 5%)
+        dogName = getDogByRarity("Rare")
+    elseif chance <= 0.80 then -- 60% chance for Common (80% - 20%)
+        dogName = getDogByRarity("Common")
+    end
+
+    if dogName then
+        local playerData = PlayerManager.getPlayerState(player)
+        if playerData and player.Character then
+            table.insert(playerData.Dogs, dogName)
+            print(player.Name .. " has attracted a " .. dogName .. "!")
+            DogModelManager.CreateDogForPlayer(player, dogName)
+            Remotes.NewDogAlert:FireClient(player, dogName, playerData.Dogs)
+        end
+    end
+end
+
+local function setupMachineForPlayer(player)
+    local machineClone = snackMachineModel:Clone()
+    machineClone.Name = player.Name .. "'s Snack Machine"
+    machineClone.Parent = Workspace
+
+    if player.Character then
+        machineClone:SetPrimaryPartCFrame(player.Character:GetPrimaryPartCFrame() + Vector3.new(5, 0, 5))
+    end
+    player.CharacterAdded:Connect(function(character)
+        machineClone:SetPrimaryPartCFrame(character:GetPrimaryPartCFrame() + Vector3.new(5, 0, 5))
+    end)
+
+    task.spawn(function()
+        while player:IsDescendantOf(Players) do
+            task.wait(10)
+            attractDog(player)
+        end
+    end)
+end
+
+Players.PlayerAdded:Connect(setupMachineForPlayer)
+
+-- Setup for players already in game
+for _, player in ipairs(Players:GetPlayers()) do
+    setupMachineForPlayer(player)
+end
+
+return SnackMachine
