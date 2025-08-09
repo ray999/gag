@@ -33,6 +33,8 @@ All core gameplay features have been implemented. The next step is to replace th
 
 ### Recent Fixes
 
+- Added timeouts and fallback loading for `DogInventoryGui` in `DogInteractionGui`, avoiding infinite yields when the UI is missing.
+- Improved `AssetLoader` warnings to hint when assets are private or inaccessible.
 - Guard against missing adoption center UI to prevent nil `DogList` errors when assets fail to load.
 - Gracefully handle unauthorized asset loads by returning failure status and avoiding infinite waits on clients.
 - Fixed `CompleteDogRequest` invocation in `DogInteractionGui` to prevent nil reference errors.

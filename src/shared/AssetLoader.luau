@@ -29,8 +29,15 @@ function AssetLoader.loadAsset(assetId)
                 obj.Parent = AssetsFolder
                 return obj:Clone()
             end
+        else
+            local msg = tostring(model)
+            warn("Failed to load asset with ID " .. tostring(assetId) .. ": " .. msg)
+            if msg:find("not authorized") then
+                warn("Ensure the asset is public or that this experience has permission to use it.")
+            end
+            return nil
         end
-        warn("Failed to load asset with ID " .. tostring(assetId) .. ": " .. tostring(model))
+        warn("Failed to load asset with ID " .. tostring(assetId))
         return nil
     else
         local asset = AssetsFolder:FindFirstChild(tostring(assetId))

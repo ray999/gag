@@ -5,10 +5,26 @@ local CompleteDogRequest = ReplicatedStorage:WaitForChild("CompleteDogRequest")
 local DogRequestUpdate = ReplicatedStorage:WaitForChild("DogRequestUpdate")
 local NewDogAlert = ReplicatedStorage:WaitForChild("NewDogAlert")
 
+local AssetLoader = require(ReplicatedStorage.Shared.AssetLoader)
+local AssetIds = require(ReplicatedStorage.Shared.AssetIds)
+
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
-local inventoryFrame = playerGui:WaitForChild("DogInventoryGui"):WaitForChild("InventoryFrame")
+local inventoryGui = playerGui:FindFirstChild("DogInventoryGui")
+if not inventoryGui then
+    inventoryGui = AssetLoader.loadGui(AssetIds.DogInventoryGui, playerGui)
+end
+if not inventoryGui then
+    warn("DogInventoryGui missing; requests UI will not show")
+    return true
+end
+
+local inventoryFrame = inventoryGui:WaitForChild("InventoryFrame", 5)
+if not inventoryFrame then
+    warn("DogInventoryGui is missing InventoryFrame")
+    return true
+end
 
 local function completeRequest(dogId)
     local success = CompleteDogRequest:InvokeServer(dogId)
